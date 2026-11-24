@@ -22,6 +22,7 @@ axe = "IA"
 nom = "OpenAI"                       # à tester ; ordre non chronologique signalé (le robot trie)
 url = "https://openai.com/news/rss.xml"
 axe = "IA"
+maximum = 5                          # beaucoup de témoignages clients : on garde les 5 plus récents
 
 [[flux]]
 nom = "Hugging Face"                 # à tester ; adresse des articles dans <guid> (géré)
@@ -44,8 +45,13 @@ url = "https://www.vie-publique.fr/debats-consultations-feeds.xml"
 axe = "PUBLIC"
 
 [[flux]]
-nom = "CERT-FR (ANSSI)"              # à tester ; nouveau domaine depuis la refonte de déc. 2025
-url = "https://cert.cyber.gouv.fr/feed/"
+nom = "CERT-FR · alertes"            # alertes seulement : quelques-unes par mois (le flux complet,
+url = "https://cert.cyber.gouv.fr/alerte/feed/"   # avec les avis techniques, en publie ~20 par jour)
+axe = "CONFIANCE"
+
+[[flux]]
+nom = "CERT-FR · bulletins d'actualité"   # synthèse hebdomadaire, lisible par un non-spécialiste
+url = "https://cert.cyber.gouv.fr/actualite/feed/"
 axe = "CONFIANCE"
 
 # ---------------------------------------------------------------- chaînes YouTube

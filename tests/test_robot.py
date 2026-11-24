@@ -1,5 +1,7 @@
 """Passages complets avec de faux sites, une fausse boîte Gmail et un faux Notion."""
 
+from dataclasses import replace
+
 import httpx
 
 from veille import notion
@@ -47,6 +49,13 @@ def test_passage_complet(cfg):
     }
     assert bilan.rangees == 4 and not bilan.echec
     assert memoire.validateurs(FLUX)[0] == '"v1"'
+
+
+def test_plafond_propre_au_flux(cfg):
+    cfg = replace(cfg, flux=type(cfg.flux)([replace(cfg.flux[0], maximum=1), *cfg.flux[1:]]))
+    boite = FauxNotion()
+    passage(cfg, sites(), Memoire(), boite, lettres)
+    assert len({"Nouveau modèle ouvert", "Sans lien mais guid"} & set(boite.rangees)) == 1
 
 
 def test_second_passage_sans_doublon(cfg):

@@ -78,3 +78,14 @@ def test_toml_invalide(tmp_path: Path):
     chemin.write_text("[[flux]\nnom=", encoding="utf-8")
     with pytest.raises(ErreurConfig, match="TOML"):
         charger(chemin)
+
+
+def test_plafond_propre_a_un_flux():
+    cfg = lire({"flux": [{"nom": "A", "url": "https://a.fr/flux", "axe": "IA", "maximum": 5}]})
+    assert cfg.flux[0].maximum == 5
+
+
+@pytest.mark.parametrize("valeur", [0, 101, "5", True])
+def test_plafond_invalide_refuse(valeur):
+    with pytest.raises(ErreurConfig, match="maximum"):
+        lire({"flux": [{"nom": "A", "url": "https://a.fr/flux", "axe": "IA", "maximum": valeur}]})

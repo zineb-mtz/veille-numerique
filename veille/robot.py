@@ -50,7 +50,11 @@ def collecter_flux(
                 bilan.noter(source.nom, "rien de neuf", "le site confirme : aucune nouveauté (304)")
                 continue
             fiches = lecteur_flux.lire(
-                reponse.contenu, source, bilan.debut, reglages.fraicheur_jours, reglages.max_par_source
+                reponse.contenu,
+                source,
+                bilan.debut,
+                reglages.fraicheur_jours,
+                source.maximum or reglages.max_par_source,
             )
         except (reseau.ErreurReseau, lecteur_flux.FluxIllisible) as erreur:
             bilan.noter(source.nom, "erreur", masquer(str(erreur))[:200])

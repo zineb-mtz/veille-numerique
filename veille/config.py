@@ -45,6 +45,7 @@ class Flux:
     url: str
     axe: Axe
     canal: Canal = Canal.RSS
+    maximum: int | None = None  # plafond propre à ce flux ; sinon le réglage max_par_source
 
 
 @dataclass(frozen=True, slots=True)
@@ -129,7 +130,13 @@ def lire(donnees: dict[str, Any]) -> Config:
         morceaux = urlsplit(url)
         if morceaux.scheme != "https" or not morceaux.hostname:
             erreurs.append(f"{ou} ({nom}) : l'adresse doit commencer par https:// (reçu « {url} »)")
-        flux.append(Flux(nom, url, axe))
+        maximum = entree.get("maximum")
+        if maximum is not None and (
+            not isinstance(maximum, int) or isinstance(maximum, bool) or not 1 <= maximum <= 100
+        ):
+            erreurs.append(f"{ou} ({nom}) : « maximum » doit être un nombre entier entre 1 et 100")
+            maximum = None
+        flux.append(Flux(nom, url, axe, maximum=maximum))
 
     for i, entree in enumerate(donnees.get("youtube", []), 1):
         ou = f"chaîne YouTube n°{i}"

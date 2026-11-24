@@ -58,3 +58,23 @@ def test_fichier_persistant(tmp_path):
     memoire.retenir(FICHE)
     memoire.fermer()
     assert Memoire(chemin).deja_vue(FICHE)
+
+
+def test_copie_pour_essai_sans_toucher_au_fichier(tmp_path):
+    chemin = tmp_path / "memoire.sqlite"
+    vraie = Memoire(chemin)
+    vraie.retenir(FICHE)
+    vraie.fermer()
+    avant = chemin.read_bytes()
+
+    essai = Memoire.copie(chemin)
+    assert essai.deja_vue(FICHE)  # l'essai voit les doublons réels
+    essai.retenir(replace(FICHE, lien="https://exemple.fr/autre", cle=""))
+    essai.fermer()
+    assert chemin.read_bytes() == avant  # le fichier n'a pas bougé
+
+
+def test_copie_sans_fichier(tmp_path):
+    essai = Memoire.copie(tmp_path / "absent.sqlite")
+    assert not essai.deja_vue(FICHE)
+    assert not (tmp_path / "absent.sqlite").exists()

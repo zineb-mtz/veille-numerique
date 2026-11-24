@@ -147,7 +147,8 @@ def main(argv: list[str] | None = None) -> int:
     essai = args.essai or not notion.configure()
     if essai and not args.essai:
         print("Notion non configuré (NOTION_TOKEN / NOTION_BASE_ID) : passage d'essai.")
-    memoire = Memoire(":memory:" if essai else DONNEES / "memoire.sqlite")
+    chemin = DONNEES / "memoire.sqlite"
+    memoire = Memoire.copie(chemin) if essai else Memoire(chemin)
     try:
         with reseau.client(cfg.reglages.delai_s) as session:
             boite = None if essai else notion.Boite(session)

@@ -49,6 +49,19 @@ class Memoire:
             """
         )
 
+    @classmethod
+    def copie(cls, chemin: Path) -> Memoire:
+        """Copie en mémoire vive de la vraie mémoire, pour un passage d'essai : il voit les
+        doublons réels, mais ce qu'il fait disparaît à la fin (le fichier n'est jamais modifié)."""
+        memoire = cls()
+        if chemin.is_file():
+            source = sqlite3.connect(f"{chemin.resolve().as_uri()}?mode=ro", uri=True)
+            try:
+                source.backup(memoire.base)
+            finally:
+                source.close()
+        return memoire
+
     def fermer(self) -> None:
         self.base.close()
 

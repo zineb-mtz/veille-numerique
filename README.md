@@ -111,3 +111,7 @@ Inspirations : [Latest-developments](https://github.com/davidamitchell/Latest-de
 [radar](https://github.com/Samdev2420/radar-ai), [veilleur](https://github.com/allienna/veilleur),
 astuces de [tech-news-digest](https://github.com/draco-agent/tech-news-digest), et la
 veille emploi du même auteur.
+
+## Licence
+
+MIT : réutilisation libre, avec mention de l'auteure. Voir [`LICENSE`](LICENSE).

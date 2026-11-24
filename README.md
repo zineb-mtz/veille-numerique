@@ -32,7 +32,7 @@ Il faut Python 3.12 ou plus récent.
 
 ```bash
 python -m venv .venv && source .venv/bin/activate
-pip install --require-hashes -r requirements-dev.txt
+pip install --require-hashes -r requirements.txt -r requirements-dev.txt
 python -m pytest                    # vérifie que tout fonctionne (aucun appel réseau)
 python -m veille.robot --essai      # passage d'essai : rien n'est envoyé ni retenu
 ```

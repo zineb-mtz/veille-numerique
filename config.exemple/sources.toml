@@ -44,15 +44,9 @@ nom = "Vie publique · consultations"
 url = "https://www.vie-publique.fr/debats-consultations-feeds.xml"
 axe = "PUBLIC"
 
-[[flux]]
-nom = "CERT-FR · alertes"            # alertes seulement : quelques-unes par mois (le flux complet,
-url = "https://cert.cyber.gouv.fr/alerte/feed/"   # avec les avis techniques, en publie ~20 par jour)
-axe = "CONFIANCE"
-
-[[flux]]
-nom = "CERT-FR · bulletins d'actualité"   # synthèse hebdomadaire, lisible par un non-spécialiste
-url = "https://cert.cyber.gouv.fr/actualite/feed/"
-axe = "CONFIANCE"
+# CERT-FR retiré le 24/11/2026 : alertes techniques quotidiennes, hors besoin.
+# Les grandes fuites de données touchant le secteur public arrivent par les lettres
+# (Acteurs publics, Localtis, Maire-info) et, une fois inscrite, la lettre de la CNIL.
 
 # ---------------------------------------------------------------- chaînes YouTube
 # chaine_id = l'identifiant de la chaîne (commence par UC, 24 caractères).

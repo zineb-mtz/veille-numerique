@@ -59,6 +59,36 @@ axe = "PUBLIC"
 # axe = "PUBLIC"
 # sans_shorts = true
 
+[[youtube]]
+nom = "Underscore_"
+chaine_id = "UCWedHS9qKebauVIK2J7383g"
+axe = "IA"
+sans_shorts = true
+
+[[youtube]]
+nom = "Science4All"
+chaine_id = "UC0NCbj8CxzeCGIF6sODJ-7A"
+axe = "CONFIANCE"
+sans_shorts = true
+
+[[youtube]]
+nom = "Micode"
+chaine_id = "UCYnvxJ-PKiGXo_tYXpWAC-w"
+axe = "CONFIANCE"
+sans_shorts = true
+
+[[youtube]]
+nom = "AI Explained"
+chaine_id = "UCNJ1Ymd5yFuUPtn21xtRbbw"
+axe = "IA"
+sans_shorts = true
+
+[[youtube]]
+nom = "Two Minute Papers"
+chaine_id = "UCbfYPyITQ-7l4upoX8nvctg"
+axe = "IA"
+sans_shorts = true
+
 # ---------------------------------------------------------------- lettres d'information
 # Seuls ces expéditeurs sont lus dans le libellé Gmail.
 # domaine = tout expéditeur de ce domaine ; adresse = une adresse exacte (pour les

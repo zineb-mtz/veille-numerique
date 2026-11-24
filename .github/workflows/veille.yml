@@ -1,0 +1,79 @@
+# Le robot passe chaque jour, sur les serveurs de GitHub (ordinateur éteint).
+name: Veille numérique
+
+on:
+  schedule:
+    # GitHub compte en heure UTC : 5h UTC = 6h à Paris en hiver (7h en été).
+    # Après la démo du 1er décembre : passer à "0 5 * * 0" (le dimanche seulement, décision D7).
+    - cron: "0 5 * * *"
+  workflow_dispatch:      # bouton « Run workflow » pour lancer un passage à la main
+    inputs:
+      essai:
+        description: "Passage d'essai (rien n'est envoyé dans Notion)"
+        type: boolean
+        default: false
+
+# Le robot ne fait que lire le dépôt : aucun droit d'écriture pour le jeton GitHub.
+permissions:
+  contents: read
+
+# Deux passages en même temps écraseraient la mémoire du robot : le second attend.
+concurrency:
+  group: veille-numerique
+  cancel-in-progress: false
+
+jobs:
+  passage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      # Actions épinglées par empreinte (SHA) : une version ne peut pas être modifiée en douce.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+          cache: pip
+      # --require-hashes : pip refuse tout paquet dont l'empreinte diffère de celle figée.
+      - run: pip install --require-hashes -r requirements.txt
+
+      - name: Liste privée des sources (facultative)
+        env:
+          SOURCES_TOML: ${{ secrets.SOURCES_TOML }}
+        run: |
+          if [ -n "$SOURCES_TOML" ]; then mkdir -p config && printf '%s\n' "$SOURCES_TOML" > config/sources.toml; fi
+
+      - name: Retrouver la mémoire du robot
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: donnees/memoire.sqlite
+          key: memoire-${{ github.run_id }}
+          restore-keys: memoire-
+
+      # Les secrets ne sont donnés qu'à cette étape (pas à pip ni aux actions tierces).
+      - name: Passage du robot
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_BASE_ID: ${{ secrets.NOTION_BASE_ID }}
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          ESSAI: ${{ inputs.essai && '--essai' || '' }}
+        run: python -m veille.robot $ESSAI
+
+      # Sauvée même si le passage échoue : les infos déjà rangées ne doivent pas revenir en double.
+      - name: Garder la mémoire du robot
+        if: always()
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: donnees/memoire.sqlite
+          key: memoire-${{ github.run_id }}
+
+      - name: Garder le bilan de santé (14 jours)
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: bilan-${{ github.run_id }}
+          path: donnees/bilan.md
+          retention-days: 14
+          if-no-files-found: ignore

@@ -1,0 +1,11 @@
+# Propose chaque semaine les mises à jour de sécurité des dépendances et des actions.
+version: 2
+updates:
+  - package-ecosystem: pip
+    directory: "/"
+    schedule:
+      interval: weekly
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly

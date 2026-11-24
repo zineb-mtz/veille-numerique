@@ -1,0 +1,13 @@
+# Configuration privée et données du robot : jamais publiées
+config/
+donnees/
+.env
+*.sqlite
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/

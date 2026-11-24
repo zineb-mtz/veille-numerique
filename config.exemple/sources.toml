@@ -1,0 +1,90 @@
+# Liste des sources du robot de veille (format TOML).
+# Ces sources ne sont pas secrètes : ce fichier sert directement au robot.
+# Pour une liste privée, copier ce fichier en config/sources.toml (jamais publié).
+#
+# axe = "IA" (IA et innovation), "PUBLIC" (Numérique public) ou "CONFIANCE" (Confiance et cadre)
+
+[reglages]
+fraicheur_jours = 7        # une info plus ancienne est ignorée
+max_par_source = 20        # au plus N infos par source et par passage
+gmail_libelle = "Veille numérique"
+gmail_jours = 3            # profondeur de lecture du libellé Gmail
+
+# ---------------------------------------------------------------- flux RSS / Atom
+# Vérifiés le 23/11/2026 (flux lu ou page officielle), sauf mention « à tester ».
+
+[[flux]]
+nom = "Mistral AI"
+url = "https://mistral.ai/news/rss"
+axe = "IA"
+
+[[flux]]
+nom = "OpenAI"                       # à tester ; ordre non chronologique signalé (le robot trie)
+url = "https://openai.com/news/rss.xml"
+axe = "IA"
+
+[[flux]]
+nom = "Hugging Face"                 # à tester ; adresse des articles dans <guid> (géré)
+url = "https://huggingface.co/blog/feed.xml"
+axe = "IA"
+
+[[flux]]
+nom = "Google DeepMind"              # à tester
+url = "https://deepmind.google/blog/rss.xml"
+axe = "IA"
+
+[[flux]]
+nom = "Vie publique · rapports"
+url = "https://www.vie-publique.fr/rapports-feeds.xml"
+axe = "PUBLIC"
+
+[[flux]]
+nom = "Vie publique · consultations"
+url = "https://www.vie-publique.fr/debats-consultations-feeds.xml"
+axe = "PUBLIC"
+
+[[flux]]
+nom = "CERT-FR (ANSSI)"              # à tester ; nouveau domaine depuis la refonte de déc. 2025
+url = "https://cert.cyber.gouv.fr/feed/"
+axe = "CONFIANCE"
+
+# ---------------------------------------------------------------- chaînes YouTube
+# chaine_id = l'identifiant de la chaîne (commence par UC, 24 caractères).
+# sans_shorts = true : seulement les vidéos longues.
+# Liste à valider (étape « Proposer 4 à 5 chaînes vérifiées » du MVP). Exemple de forme :
+#
+# [[youtube]]
+# nom = "Nom de la chaîne"
+# chaine_id = "UCxxxxxxxxxxxxxxxxxxxxxx"
+# axe = "PUBLIC"
+# sans_shorts = true
+
+# ---------------------------------------------------------------- lettres d'information
+# Seuls ces expéditeurs sont lus dans le libellé Gmail.
+# domaine = tout expéditeur de ce domaine ; adresse = une adresse exacte (pour les
+# domaines partagés comme substack.com). Indiquer l'un OU l'autre.
+
+[[expediteurs]]
+nom = "Localtis"
+domaine = "infos.banquedesterritoires.fr"
+axe = "PUBLIC"
+
+[[expediteurs]]
+nom = "Maire-info (AMF)"
+domaine = "amf-envoi.fr"
+axe = "PUBLIC"
+
+[[expediteurs]]
+nom = "DINUM · Pôle Open Source"
+domaine = "ouvert.numerique.gouv.fr"
+axe = "PUBLIC"
+
+[[expediteurs]]
+nom = "Import AI"
+adresse = "importai@substack.com"
+axe = "IA"
+
+[[expediteurs]]
+nom = "Acteurs publics"              # domaine vu sur l'e-mail de bienvenue ; à confirmer sur la première lettre
+domaine = "acteurspublics.media"
+axe = "PUBLIC"

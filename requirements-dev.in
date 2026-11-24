@@ -1,0 +1,7 @@
+# Outils de développement (tests, style, types, audit). Généré par :
+#   pip-compile --generate-hashes requirements-dev.in
+-c requirements.txt
+pytest>=8.0
+ruff>=0.6
+mypy>=1.11
+pip-audit>=2.7

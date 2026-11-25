@@ -48,6 +48,37 @@ axe = "PUBLIC"
 # Les grandes fuites de données touchant le secteur public arrivent par les lettres
 # (Acteurs publics, Localtis, Maire-info) et, une fois inscrite, la lettre de la CNIL.
 
+
+[[flux]]
+nom = "T1"
+url = "https://observatoire.data-publica.eu/feed/"
+axe = "PUBLIC"
+
+[[flux]]
+nom = "T2"
+url = "https://data-publica.eu/feed/"
+axe = "PUBLIC"
+
+[[flux]]
+nom = "T3"
+url = "https://www.data-publica.eu/feed/"
+axe = "PUBLIC"
+
+[[flux]]
+nom = "T4"
+url = "https://www.civiteo.fr/feed/"
+axe = "PUBLIC"
+
+[[flux]]
+nom = "T5"
+url = "https://civiteo.fr/feed/"
+axe = "PUBLIC"
+
+[[flux]]
+nom = "T6"
+url = "https://www.civiteo.com/feed/"
+axe = "PUBLIC"
+
 # ---------------------------------------------------------------- chaînes YouTube
 # chaine_id = l'identifiant de la chaîne (commence par UC, 24 caractères).
 # sans_shorts = true : seulement les vidéos longues.

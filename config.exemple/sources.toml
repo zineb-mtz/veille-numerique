@@ -48,6 +48,14 @@ axe = "PUBLIC"
 # Les grandes fuites de données touchant le secteur public arrivent par les lettres
 # (Acteurs publics, Localtis, Maire-info) et, une fois inscrite, la lettre de la CNIL.
 
+
+[[flux]]
+nom = "Observatoire Data Publica"    # vérifié le 25/11/2026 ; baromètre annuel data et IA des collectivités
+url = "https://observatoire.data-publica.eu/feed/"
+axe = "PUBLIC"
+
+# Civiteo : pas de flux RSS (le site renvoie une page web) ; à suivre par lettre d'info ou « Tes liens ».
+
 # ---------------------------------------------------------------- chaînes YouTube
 # chaine_id = l'identifiant de la chaîne (commence par UC, 24 caractères).
 # sans_shorts = true : seulement les vidéos longues.

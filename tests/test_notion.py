@@ -28,6 +28,14 @@ def test_page_colonnes():
     assert proprietes["Canal"] == {"select": {"name": "RSS"}}
     assert proprietes["Publié le"] == {"date": {"start": "2026-11-24"}}
     assert proprietes["Identifiant"]["rich_text"][0]["text"]["content"] == FICHE.identifiant
+    assert "À retenir" not in proprietes  # colonne remplie seulement si Mistral a écrit une phrase
+
+
+def test_page_a_retenir():
+    from dataclasses import replace
+
+    proprietes = notion.page(replace(FICHE, a_retenir="Le fait : l'enjeu."), "base")["properties"]
+    assert proprietes["À retenir"]["rich_text"][0]["text"]["content"] == "Le fait : l'enjeu."
 
 
 def test_lettre_longue_decoupee_et_bornee():

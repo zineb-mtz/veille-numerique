@@ -113,7 +113,7 @@ def html_vers_texte(html: str) -> tuple[str, list[str]]:
     return "\n".join(ligne for ligne in lignes if ligne), lecteur.liens
 
 
-_SECRETS = ("NOTION_TOKEN", "GMAIL_APP_PASSWORD", "GMAIL_USER")
+_SECRETS = ("NOTION_TOKEN", "GMAIL_APP_PASSWORD", "GMAIL_USER", "MISTRAL_API_KEY")
 
 
 def masquer(texte: str) -> str:

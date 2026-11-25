@@ -49,6 +49,7 @@ class Fiche:
     texte: str = ""  # texte complet, gardé en privé (corps de la page Notion), jamais republié
     liens_cites: tuple[str, ...] = field(default_factory=tuple)  # liens trouvés dans une lettre, jamais ouverts
     cle: str = ""  # identité stable de l'info, sert au dédoublonnage
+    a_retenir: str = ""  # phrase « À retenir » écrite par Mistral (facultatif, voir resume.py)
 
     @property
     def identifiant(self) -> str:

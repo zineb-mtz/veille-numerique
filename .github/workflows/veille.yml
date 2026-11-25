@@ -5,7 +5,7 @@ on:
   schedule:
     # GitHub compte en heure UTC : 5h UTC = 6h à Paris en hiver (7h en été).
     # Après la démo du 1er décembre : passer à "0 5 * * 0" (le dimanche seulement, décision D7).
-    - cron: "0 5 * * *"
+    - cron: "17 4 * * *"   # 5 h 17 à Paris (hiver) ; minute décalée : GitHub retarde ou saute souvent les passages à l'heure pile
   workflow_dispatch:      # bouton « Run workflow » pour lancer un passage à la main
     inputs:
       essai:

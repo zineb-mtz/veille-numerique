@@ -73,7 +73,7 @@ python -m veille.robot --essai      # passage d'essai : rien n'est envoyé ni re
    Chaque source a un axe ; un expéditeur se déclare par domaine, ou par adresse
    exacte pour les domaines partagés (`importai@substack.com`).
 
-Le passage tourne chaque jour à 5 h UTC (onglet Actions) ; le bouton « Run workflow »
+Le passage tourne chaque jour vers 4 h 17 UTC (5 h 17 à Paris l'hiver) (onglet Actions) ; le bouton « Run workflow »
 lance un passage à la main, en essai si besoin. Le bilan apparaît dans le résumé
 de l'exécution.
 

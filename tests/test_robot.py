@@ -4,7 +4,7 @@ from dataclasses import replace
 
 import httpx
 
-from veille import notion
+from veille import notion, resume
 from veille.memoire import Memoire
 from veille.robot import main, passage
 
@@ -98,3 +98,22 @@ def test_main_configuration_fausse(tmp_path, capsys):
     chemin.write_text('[[flux]]\nnom = "A"\nurl = "http://x.fr"\naxe = "IA"\n', encoding="utf-8")
     assert main(["--sources", str(chemin)]) == 2
     assert "https://" in capsys.readouterr().err
+
+
+class FauxResumeur(resume.Resumeur):
+    def __init__(self) -> None:
+        self.echecs = 0
+        self.derniere_erreur = ""
+
+    def phrase(self, fiche):
+        return f"À retenir : {fiche.titre}"
+
+
+def test_phrase_a_retenir_rangee(cfg):
+    class Boite(FauxNotion):
+        def ranger(self, fiche):
+            assert fiche.a_retenir.startswith("À retenir : ")
+            super().ranger(fiche)
+
+    bilan = passage(cfg, sites(), Memoire(), Boite(), lettres, resumeur=FauxResumeur())
+    assert any(ligne.source == "Mistral · À retenir" and "4 phrase(s)" in ligne.detail for ligne in bilan.lignes)

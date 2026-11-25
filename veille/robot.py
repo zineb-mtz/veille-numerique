@@ -18,12 +18,13 @@ from __future__ import annotations
 import argparse
 import sys
 from collections import defaultdict
+from dataclasses import replace
 from pathlib import Path
 
 import httpx
 
 from . import config as configuration
-from . import notion, reseau
+from . import notion, reseau, resume
 from .memoire import TITRE_MIN, Memoire
 from .modeles import Canal, Fiche
 from .sante import Bilan
@@ -73,6 +74,7 @@ def passage(
     memoire: Memoire,
     boite: notion.Boite | None,
     lire_boite: gmail.LireBoite | None = None,
+    resumeur: resume.Resumeur | None = None,
 ) -> Bilan:
     """Un passage complet. `boite` vaut None en mode essai. Testable avec de faux sites et une fausse boîte."""
     bilan = Bilan(debut=maintenant(), essai=boite is None)
@@ -108,6 +110,8 @@ def passage(
         if bilan.erreur_rangement:
             incomplets.add(origine)
             continue
+        if resumeur is not None:
+            fiche = replace(fiche, a_retenir=resumeur.phrase(fiche))
         try:
             boite.ranger(fiche)
         except (notion.ErreurNotion, httpx.HTTPError) as erreur:
@@ -116,6 +120,13 @@ def passage(
             continue
         memoire.retenir(fiche)  # seulement après un rangement réussi
         bilan.rangees += 1
+
+    if resumeur is not None:
+        ecrites = bilan.rangees - resumeur.echecs
+        detail = f"{max(ecrites, 0)} phrase(s) écrite(s)"
+        if resumeur.echecs:
+            detail += f", {resumeur.echecs} échec(s) : {masquer(resumeur.derniere_erreur)[:150]}"
+        bilan.noter("Mistral · À retenir", "info", detail)
 
     if boite is not None:
         # Un flux n'est marqué « lu jusqu'ici » que si toutes ses infos ont été rangées.
@@ -152,7 +163,8 @@ def main(argv: list[str] | None = None) -> int:
     try:
         with reseau.client(cfg.reglages.delai_s) as session:
             boite = None if essai else notion.Boite(session)
-            bilan = passage(cfg, session, memoire, boite)
+            resumeur = resume.Resumeur(session) if boite is not None and resume.configure() else None
+            bilan = passage(cfg, session, memoire, boite, resumeur=resumeur)
     finally:
         memoire.fermer()
     bilan.publier(DONNEES)

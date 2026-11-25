@@ -51,7 +51,7 @@ axe = "PUBLIC"
 # ---------------------------------------------------------------- chaînes YouTube
 # chaine_id = l'identifiant de la chaîne (commence par UC, 24 caractères).
 # sans_shorts = true : seulement les vidéos longues.
-# Liste à valider (étape « Proposer 4 à 5 chaînes vérifiées » du MVP). Exemple de forme :
+# Chaînes vérifiées le 24/11/2026 (flux lu depuis GitHub). Forme d'une entrée :
 #
 # [[youtube]]
 # nom = "Nom de la chaîne"

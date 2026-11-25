@@ -2,8 +2,9 @@
 
 Un robot gratuit qui suit chaque jour l'actualité de l'IA et du numérique public :
 il lit des flux RSS, des chaînes YouTube et des lettres d'information reçues dans
-Gmail, écarte les doublons et range le reste dans une base Notion. Il ne juge pas,
-ne résume pas et ne publie rien : la lecture et la décision restent humaines.
+Gmail, écarte les doublons et range le reste dans une base Notion. En option, il
+ajoute à chaque info une phrase « À retenir » écrite par Mistral. Il ne publie
+rien : la lecture et la décision restent humaines.
 
 C'est le lot 1 (collecte) du projet « Veille sur le numérique ». Le tri, l'analyse
 (fiches inspirées de la méthode de Romy Alula) et la publication viendront ensuite.
@@ -19,7 +20,8 @@ lettres (Gmail) ───┘    (une source       (fiche brute)    (mémoire    
                                   └──> bilan de santé (journal + résumé GitHub)
 ```
 
-- **Sans IA, donc gratuit** : aucune requête à un modèle de langage.
+- **IA en option, au bout de la chaîne** : la collecte n'appelle aucune IA ; seule la
+  phrase « À retenir » (facultative) fait appel à Mistral, offre gratuite.
 - **Une panne n'arrête rien** : chaque source est lue séparément ; une source qui
   échoue devient une ligne du bilan de santé.
 - **Rien n'est perdu** : une info n'est marquée « déjà vue » qu'après son
@@ -51,6 +53,7 @@ python -m veille.robot --essai      # passage d'essai : rien n'est envoyé ni re
    | Publié le | Date | date de publication |
    | Collecté le | Date | date du passage |
    | Extrait | Texte | 500 premiers caractères |
+   | À retenir | Texte | facultatif : une phrase « le fait : ce que ça change pour le public » |
    | Statut | Sélection | À lire, Retenu, Écarté, Publié |
    | Identifiant | Texte | empreinte servant au dédoublonnage |
 
@@ -67,13 +70,14 @@ python -m veille.robot --essai      # passage d'essai : rien n'est envoyé ni re
    | `NOTION_BASE_ID` | identifiant (ou adresse) de la base « Veille numérique » |
    | `GMAIL_USER` | adresse Gmail |
    | `GMAIL_APP_PASSWORD` | mot de passe d'application Google (pas le vrai mot de passe) |
+   | `MISTRAL_API_KEY` | facultatif : clé de l'API Mistral, pour la phrase « À retenir » |
    | `SOURCES_TOML` | facultatif : liste privée des sources |
 
 4. **Sources** : [`config.exemple/sources.toml`](config.exemple/sources.toml), commenté.
    Chaque source a un axe ; un expéditeur se déclare par domaine, ou par adresse
    exacte pour les domaines partagés (`importai@substack.com`).
 
-Le passage tourne chaque jour à 5 h UTC (onglet Actions) ; le bouton « Run workflow »
+Le passage tourne chaque jour vers 4 h 17 UTC (5 h 17 à Paris l'hiver) (onglet Actions) ; le bouton « Run workflow »
 lance un passage à la main, en essai si besoin. Le bilan apparaît dans le résumé
 de l'exécution.
 
@@ -88,7 +92,7 @@ de l'exécution.
 | Liens pistés, désabonnement en un clic | le robot ne clique jamais sur un lien d'une lettre |
 | Dépendance compromise | versions figées avec empreintes (`--require-hashes`), pip-audit, Dependabot |
 | Action GitHub détournée | actions épinglées par empreinte (SHA), jeton GitHub en lecture seule |
-| Contenu piégé pour une IA | la collecte n'appelle aucune IA ; le texte est stocké comme une donnée |
+| Contenu piégé pour une IA | la collecte n'appelle aucune IA ; pour « À retenir », le texte est encadré comme une donnée, la consigne interdit d'en suivre les instructions, la réponse est réduite à une ligne affichée, jamais exécutée |
 | Droits d'auteur | texte des lettres gardé en privé dans Notion, jamais republié |
 
 ## Organisation du code

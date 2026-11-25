@@ -109,6 +109,8 @@ def page(fiche: Fiche, base_id: str) -> dict[str, object]:
         "Statut": {"select": {"name": STATUT_INITIAL}},
         "Identifiant": {"rich_text": _texte(fiche.identifiant)},
     }
+    if fiche.a_retenir:
+        proprietes["À retenir"] = {"rich_text": _texte(fiche.a_retenir)}
     if fiche.publie_le:
         proprietes["Publié le"] = {"date": {"start": fiche.publie_le.isoformat()}}
 

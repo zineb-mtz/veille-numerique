@@ -54,6 +54,8 @@ python -m veille.robot --essai      # passage d'essai : rien n'est envoyé ni re
    | Collecté le | Date | date du passage |
    | Extrait | Texte | 500 premiers caractères |
    | À retenir | Texte | facultatif : une phrase « le fait : ce que ça change pour le public » |
+   | Hors sujet | Case à cocher | facultatif : cochée quand la phrase commence par « Hors sujet » |
+   | Note post, Pourquoi | Nombre, Texte | facultatif : note sur 8 pour choisir l'actu de la semaine (remplie à la main pour l'instant) |
    | Statut | Sélection | À lire, Retenu, Écarté, Publié |
    | Identifiant | Texte | empreinte servant au dédoublonnage |
 

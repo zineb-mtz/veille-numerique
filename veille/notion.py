@@ -111,6 +111,8 @@ def page(fiche: Fiche, base_id: str) -> dict[str, object]:
     }
     if fiche.a_retenir:
         proprietes["À retenir"] = {"rich_text": _texte(fiche.a_retenir)}
+        # Range l'info dans l'onglet « Hors sujet » de Notion plutôt que dans « À lire ».
+        proprietes["Hors sujet"] = {"checkbox": fiche.a_retenir.lower().startswith("hors sujet")}
     if fiche.publie_le:
         proprietes["Publié le"] = {"date": {"start": fiche.publie_le.isoformat()}}
 

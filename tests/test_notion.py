@@ -36,6 +36,9 @@ def test_page_a_retenir():
 
     proprietes = notion.page(replace(FICHE, a_retenir="Le fait : l'enjeu."), "base")["properties"]
     assert proprietes["À retenir"]["rich_text"][0]["text"]["content"] == "Le fait : l'enjeu."
+    assert proprietes["Hors sujet"] == {"checkbox": False}
+    hors_sujet = notion.page(replace(FICHE, a_retenir="Hors sujet : robotique."), "base")["properties"]
+    assert hors_sujet["Hors sujet"] == {"checkbox": True}
 
 
 def test_lettre_longue_decoupee_et_bornee():
